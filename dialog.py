@@ -57,7 +57,7 @@ def main_windows():
         ],
     ]
 
-    window = sg.Window('NR GSTR-3B Annual Turnover Report',
+    window = sg.Window('NR GSTR-3B Turnover Report Generator',
                        auto_size_text=True,
                        default_element_size=(40, 1),
                        button_color=('white', 'blue'),
