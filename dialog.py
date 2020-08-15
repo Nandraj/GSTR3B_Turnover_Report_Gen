@@ -3,6 +3,7 @@ from misc import get_excel_file_path, get_excel_file_name
 import os
 from sqlquery import MySqlite3
 from excel_processing import generate_client_list_from_xl_input
+from misc import generate_3bdata_report, generate_client_report
 
 
 def getCaptcha():
@@ -54,6 +55,7 @@ def main_windows():
         ],
         [
             sg.Button(button_text='Start Processing'),
+            sg.Button(button_text='Generate Reports'),
         ],
     ]
 
@@ -114,6 +116,19 @@ def main_windows():
             #     # nor_cess, export, exp_igst, exp_cess, exempt, rcm_taxval\
             #     # rcm_igst, rcm_cgst, rcm_sgst, rcm_cess, non_gst\
             window.Element("db_file").Update(value=db_file)
+        elif event == "Generate Reports":
+            db_file = window.Element("db_file").Get()
+            if db_file != "":
+                xl_file_path = get_excel_file_path(db_file)
+                mysqldb_ = MySqlite3(db_file)
+                generate_3bdata_report(
+                    xl_file_path + "//gstr3b_data.csv", mysqldb_)
+                generate_client_report(
+                    xl_file_path + "//client_data.csv", mysqldb_)
+                look_into_report_dialog()
+                window.Element("db_file").Update(value="")
+            else:
+                db_file_not_selected()
     window.Close()
     return [mysqldb, xl_file_path]
 
@@ -125,3 +140,7 @@ def data_not_selected_dialog():
 def look_into_report_dialog():
     return sg.PopupOK("Processing Completed. Look into report csv files",
                       icon='N.ico')
+
+
+def db_file_not_selected():
+    return sg.PopupError("Database file not selected.", icon='N.ico')

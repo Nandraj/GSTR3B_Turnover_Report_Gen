@@ -77,18 +77,24 @@ def login_to_GST_Portal(client_data, mysqldb):
                     time.sleep(2)
                     table_31 = browser.find_element_by_xpath(
                         "/html/body/div[2]/div[2]/div/div[2]/div[1]/div[3]/div[8]/div/div[1]/a/div[1]/p")
-                    table_31.click()
-                    time.sleep(5)
-                    table_31_dialog_ok = browser.find_element_by_xpath(
-                        '//*[@id="iosupAdvisory"]/div/div/div[2]/button')
-                    table_31_dialog_ok.click()
-                    time.sleep(3)
-                    threeBData = browser.find_elements_by_tag_name("input")
+                    if table_31.text == "3.1 Tax on outward and reverse charge inward supplies":
+                        table_31.click()
+                        time.sleep(5)
+                        table_31_dialog_ok = browser.find_element_by_xpath(
+                            '//*[@id="iosupAdvisory"]/div/div/div[2]/button')
+                        table_31_dialog_ok.click()
+                        time.sleep(3)
+                        threeBData = browser.find_elements_by_tag_name("input")
+                    else:
+                        threeBData = ["0.00" for x in range(1, 16)]
 
                     def val(i):
-                        value = i.get_attribute('value')
-                        value = value.replace("₹", "").replace(
-                            "'", "").replace(",", "")
+                        if type(i) == str:
+                            value = i
+                        else:
+                            value = i.get_attribute('value')
+                            value = value.replace("₹", "").replace(
+                                "'", "").replace(",", "")
                         return value
 
                     mysqldb.edit_insert("INSERT INTO gstr3b_data(gstin, name, month, \
