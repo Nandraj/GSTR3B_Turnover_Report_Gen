@@ -29,4 +29,6 @@ If you select excel file in second time or later all previous data stored in dat
 
 9. Checkout gstr3b data csv file which has all month sales data for all clients given in template when you processed it for the first time.
 
+10. Though once all client data got saved csv reports are automatically gets generated but if you wish to generate it manually then select database file and press Generate Reports button.
+
 *chromedriver matching with your pc's chrome is required in NR GST Auto folder. You can check your chrome version by going to Help > About google chrome. You can download chromedriver from this [link](https://chromedriver.chromium.org/downloads)
